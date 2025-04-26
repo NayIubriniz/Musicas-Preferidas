@@ -1,0 +1,36 @@
+
+{% extends 'padrao.html' %}
+
+{% block conteudo %}
+    <form method="post" action="/adicionar" enctype="multipart/form-data">
+        <fieldset class="border p-2">
+            
+            {{ form.csrf_token() }}
+
+            <div class="mb-2">
+                <label for="arquivo" class="form-label">Selecione a Capa do album</label>
+                <input type="file" class="form-control mb-2" name="arquivo" id="arquivo" accept=".jpg, .jpeg, .png" title="Selecione um arquivo de imagem">
+            </div>
+
+            <div class="mb-2">
+                {{form.nome.label(class="form-label")}}
+                {{form.nome(class="form-control mb-2")}}
+            </div>
+
+            <div class="mb-2">
+                {{form.grupo.label(class="form-label")}}
+                {{form.grupo(class="form-control mb-2")}}
+
+            </div>
+
+            <div class="mb-2">
+              {{form.genero.label(class="form-label")}}
+              {{form.genero(class="form-control mb-2")}}
+            </div>
+            <div class="mb-2">
+               {{form.cadastro(class="btn btn-outline-secondary")}}
+            </div>
+            
+        </fieldset>
+    </form>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body class="">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="list-unstyled" id="messages">
+                {% for message in messages %}
+                    <li class="alert alert-danger">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+   <div class="container mt-4 d-flex justify-content-center align-items-center flex-column" style="height: 80vh;">
+            
+       <form method="post" action="/autenticar">
+            {{ form.csrf_token() }}
+            <h2 class="text-center">Área de Login</h2>
+           <fieldset class="border p-2 rounded" style="width: 500px;">
+                <div class="mb-2">
+                   {{ form.usuario.label(class="form-label", placeholder="Usuário") }}
+                   {{ form.usuario(class="form-control", placeholder="Usuário") }}  
+                </div>
+
+                <div class="mb-2">
+                    {{ form.senha.label(class="form-label", placeholder="Senha") }}
+                    {{ form.senha(class="form-control", placeholder="Senha") }}
+                </div>
+
+                <div class="mb-2">
+                    {{ form.logar(class="btn btn-outline-secondary") }}
+                </div>
+                <p class="text-center">Não tem uma conta ainda?<a href="{{url_for('cadastrar_usuario')}}" class="text-decoration-none"> Cadastre-se aqui </a></p>
+           </fieldset>
+       </form>
+   </div>
+</body>
+</html>
