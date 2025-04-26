@@ -78,8 +78,9 @@ def adicionar_usuario():
                            senha_usuario=senha)
     db.session.add(novo_usuario)
     db.session.commit()
+    session
     flash('Usuário cadastrado com sucesso!')
-    return redirect(url_for('login'))
+    return redirect(url_for('listarMusicas'))
 
 
 @app.route('/sair')
