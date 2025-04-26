@@ -36,7 +36,5 @@
 
 <h2>🖼️ Prints do Projeto</h2>
 
-
-
 ![Tela Inicial](screenshots/Captura%20de%20tela%202025-04-26%20161724.png)
 ![Cadastro de Música](screenshots/Captura%20de%20tela%202025-04-26%20161758.png)
