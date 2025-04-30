@@ -10,10 +10,12 @@ def require_login():
         'login', 'autenticar', 'cadastrar_usuario',
         'adicionar_usuario', 'static', 'index'
     }
+    endpoint = request.endpoint
+    if endpoint is None or endpoint in rotas_livres:
+        return
 
-    endpoint = (request.endpoint or '').split('.')[0]
-    if 'usuario_logado' not in session and endpoint not in rotas_livres:
-        flash('Você precisa estar logado para acessar essa página.')
+    if 'usuario_logado' not in session:
+        flash('Você precisa fazer login para acessar esta página!')
         return redirect(url_for('login'))
 
 
@@ -84,12 +86,12 @@ def adicionar_usuario():
     db.session.commit()
 
     session['usuario_logado'] = novo_usuario.login_usuario
-    flash(f'Usuário {novo_usuario.nome_usuario} cadastrado com sucesso!')
+    flash(f'Usuário(a) {novo_usuario.nome_usuario} cadastrado com sucesso!')
     return redirect(url_for('listarMusicas'))
 
 
 @app.route('/sair')
 def sair():
-    session.pop('usuario_logado', None)
+    session.clear()
     flash('Usuário deslogado com sucesso!')
-    return redirect('login')
+    return redirect(url_for('login'))

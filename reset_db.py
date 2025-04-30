@@ -15,7 +15,6 @@ with app.app_context():
     Usuario.query.delete()
     db.session.commit()
 
-    # Aqui zera as tabelas completamente
     print('Derrubando e recriando todas as tabelas...')
     db.drop_all()
     db.create_all()
