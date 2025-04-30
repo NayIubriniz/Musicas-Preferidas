@@ -1,7 +1,7 @@
 {% extends "padrao.html" %}
 
     {% block conteudo %}
-        <form method="POST" action="/addUsuario" class=" d-flex justify-content-center align-items-center flex-column" style="height: 75vh;">
+        <form method="POST" action="/adicionar_usuario" class=" d-flex justify-content-center align-items-center flex-column" style="height: 75vh;">
             {{ form.csrf_token }}
             <fieldset class="border p-2 rounded" style="width: 500px;">
                 <div class="mb-3">

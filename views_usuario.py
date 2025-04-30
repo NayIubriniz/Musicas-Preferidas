@@ -6,20 +6,15 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 
 @app.before_request
 def require_login():
-    rotas_livres = [
+    rotas_livres = {
         'login', 'autenticar', 'cadastrar_usuario',
         'adicionar_usuario', 'static', 'index'
-    ]
-    endpoint = request.endpoint
-    if endpoint is None:
-        return
+    }
+
+    endpoint = (request.endpoint or '').split('.')[0]
     if 'usuario_logado' not in session and endpoint not in rotas_livres:
-        if request.method == 'GET':
-            flash('Você precisa estar logado para acessar essa página.')
-            return redirect(url_for('login'))
-        elif request.method == 'POST':
-            flash('Você precisa estar logado para realizar esta ação.')
-            return redirect(url_for('login'))  # ou retorna um erro apropriado
+        flash('Você precisa estar logado para acessar essa página.')
+        return redirect(url_for('login'))
 
 
 @app.route('/')
@@ -54,16 +49,14 @@ def autenticar():
 
 @app.route('/cadastrarUsuario')
 def cadastrar_usuario():
-    if 'usuario_logado' in session:
-        flash('Você já está logado!')
-        return redirect(url_for('listarMusicas'))
+    session.pop('usuario_logado', None)
     form = FormularioCadastroUsuario()
     return render_template('cadastro_usuario.html',
                            titulo='Cadastro de Usuário', form=form,
                            ocultar_nav=True)
 
 
-@app.route('/addUsuario', methods=['POST',])
+@app.route('/adicionar_usuario', methods=['POST',])
 def adicionar_usuario():
     formRecebido = FormularioCadastroUsuario(request.form)
     if not formRecebido.validate_on_submit():

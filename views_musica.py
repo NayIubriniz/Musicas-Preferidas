@@ -13,22 +13,6 @@ import time
 import os
 
 
-@app.before_request
-def require_login():
-    rotas_livres = [
-        'login', 'autenticar', 'cadastrar_usuario',
-        'addUsuario', 'static'
-    ]
-    if request.endpoint is None:
-        return
-    if (
-        'usuario_logado' not in session
-        and request.endpoint not in rotas_livres
-    ):
-        flash('Você precisa estar logado para acessar essa página.')
-        return redirect(url_for('login'))
-
-
 @app.route('/musicas')
 @login_required
 def listarMusicas():
