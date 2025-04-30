@@ -14,10 +14,12 @@ def require_login():
     if endpoint is None:
         return
     if 'usuario_logado' not in session and endpoint not in rotas_livres:
-
         if request.method == 'GET':
             flash('Você precisa estar logado para acessar essa página.')
-        return redirect(url_for('login'))
+            return redirect(url_for('login'))
+        elif request.method == 'POST':
+            flash('Você precisa estar logado para realizar esta ação.')
+            return redirect(url_for('login'))  # ou retorna um erro apropriado
 
 
 @app.route('/')
@@ -65,19 +67,29 @@ def cadastrar_usuario():
 def adicionar_usuario():
     formRecebido = FormularioCadastroUsuario(request.form)
     if not formRecebido.validate_on_submit():
-        return redirect(url_for('cadastro_usuario'))
+        print(formRecebido.errors)
+        flash('Erro no preenchimento do formulário!')
+        return render_template(
+            'cadastro_usuario.html',
+            titulo='Cadastro de Usuário',
+            form=formRecebido,
+            ocultar_nav=True
+        )
     nome = formRecebido.nome.data
     usuario = formRecebido.usuario.data
     senha = generate_password_hash(formRecebido.senha.data).decode('utf-8')
+
     from models import Usuario
     usuario_existe = Usuario.query.filter_by(login_usuario=usuario).first()
     if usuario_existe:
         flash('Usuário já cadastrado!')
         return redirect(url_for('cadastrar_usuario'))
+
     novo_usuario = Usuario(nome_usuario=nome, login_usuario=usuario,
                            senha_usuario=senha)
     db.session.add(novo_usuario)
     db.session.commit()
+
     session['usuario_logado'] = novo_usuario.login_usuario
     flash(f'Usuário {novo_usuario.nome_usuario} cadastrado com sucesso!')
     return redirect(url_for('listarMusicas'))

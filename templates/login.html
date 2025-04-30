@@ -39,7 +39,11 @@
                 <div class="mb-2">
                     {{ form.logar(class="btn btn-outline-secondary") }}
                 </div>
-                <p class="text-center">Não tem uma conta ainda?<a href="{{url_for('cadastrar_usuario')}}" class="text-decoration-none"> Cadastre-se aqui </a></p>
+                <div>
+                    <p class="text-center">
+                        Não tem uma conta? <a href="{{ url_for('cadastrar_usuario')}}" class="text-decoration-none">Cadastre-se</a>
+                    </p>
+                </div>
            </fieldset>
        </form>
    </div>

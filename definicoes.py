@@ -34,7 +34,7 @@ class FormularioCadastroUsuario(FlaskForm):
     senha = PasswordField('Senha',
                           [validators.DataRequired(),
                            validators.Length(min=6, max=255)])
-    cadastrar = SubmitField('Cadastrar Usuário')
+    cadastrar = SubmitField('Cadastrar')
 
 
 def recuperar_imagem(id):
